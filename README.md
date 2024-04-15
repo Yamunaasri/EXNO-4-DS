@@ -24,6 +24,175 @@ The feature selection techniques used are:
 3.Embedded Method
 
 # CODING AND OUTPUT:
-       # INCLUDE YOUR CODING AND OUTPUT SCREENSHOTS HERE
+```
+NAME : YAMUNAASRI T S
+REG NO : 212222240117
+```
+```python
+import pandas as pd
+import numpy as np
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import accuracy_score, confusion_matrix
+
+data=pd.read_csv("/content/income(1) (1).csv",na_values=[ " ?"])
+data
+```
+![alt text](image.png)
+```python
+
+data.isnull().sum()
+```
+![alt text](image-1.png)
+```python
+
+missing=data[data.isnull().any(axis=1)]
+missing
+```
+![alt text](image-2.png)
+```python
+
+data2=data.dropna(axis=0)
+data2
+```
+![alt text](image-3.png)
+```python
+sal=data["SalStat"]
+
+data2["SalStat"]=data["SalStat"].map({' less than or equal to 50,000':0,' greater than 50,000':1})
+print(data2['SalStat'])
+```
+![alt text](image-4.png)
+```python
+sal2=data2['SalStat']
+
+dfs=pd.concat([sal,sal2],axis=1)
+dfs
+```
+![alt text](image-5.png)
+```python
+
+
+data2
+```
+![alt text](image-6.png)
+```python
+new_data=pd.get_dummies(data2, drop_first=True)
+new_data
+```
+![alt text](image-7.png)
+```python
+
+columns_list=list(new_data.columns)
+print(columns_list)
+```
+![alt text](image-8.png)
+```python
+
+
+features=list(set(columns_list)-set(['SalStat']))
+print(features)
+```
+![alt text](image-9.png)
+```python
+y=new_data['SalStat'].values
+print(y)
+```
+![alt text](image-10.png)
+```python
+
+x=new_data[features].values
+print(x)
+```
+![alt text](image-11.png)
+```python
+
+train_x,test_x,train_y,test_y=train_test_split(x,y,test_size=0.3,random_state=0)
+
+KNN_classifier=KNeighborsClassifier(n_neighbors = 5)
+
+KNN_classifier.fit(train_x,train_y)
+```
+![alt text](image-12.png)
+```python
+
+prediction=KNN_classifier.predict(test_x)
+
+confusionMatrix=confusion_matrix(test_y, prediction)
+print(confusionMatrix)
+```
+![alt text](image-13.png)
+```python
+
+accuracy_score=accuracy_score(test_y,prediction)
+print(accuracy_score)
+```
+![alt text](image-14.png)
+```python
+
+print("Misclassified Samples : %d" % (test_y !=prediction).sum())
+```
+![alt text](image-15.png)
+```python
+
+data.shape
+```
+![alt text](image-16.png)
+```python
+
+import pandas as pd
+from sklearn.feature_selection import SelectKBest, mutual_info_classif, f_classif
+data={
+    'Feature1': [1,2,3,4,5],
+    'Feature2': ['A','B','C','A','B'],
+    'Feature3': [0,1,1,0,1],
+    'Target'  : [0,1,1,0,1]
+}
+
+df=pd.DataFrame(data)
+x=df[['Feature1','Feature3']]
+y=df[['Target']]
+
+selector=SelectKBest(score_func=mutual_info_classif,k=1)
+x_new=selector.fit_transform(x,y)
+
+selected_feature_indices=selector.get_support(indices=True)
+
+selected_features=x.columns[selected_feature_indices]
+print("Selected Features:")
+print(selected_features)
+```
+![alt text](image-17.png)
+```python
+
+import pandas as pd
+import numpy as np
+from scipy.stats import chi2_contingency
+
+import seaborn as sns
+tips=sns.load_dataset('tips')
+tips.head()
+```
+![alt text](image-18.png)
+```python
+
+tips.time.unique()
+```
+![alt text](image-19.png)
+```python
+
+contingency_table=pd.crosstab(tips['sex'],tips['time'])
+print(contingency_table)
+```
+![alt text](image-20.png)
+```python
+
+chi2,p,_,_=chi2_contingency(contingency_table)
+print(f"Chi-Square Statistics: {chi2}")
+print(f"P-Value: {p}")
+```
+![alt text](image-21.png)
 # RESULT:
-       # INCLUDE YOUR RESULT HERE
+Thus, Feature selection and Feature scaling has been used on thegiven dataset.
